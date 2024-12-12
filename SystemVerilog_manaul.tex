@@ -28,11 +28,10 @@
 \usepackage{hyperref}
 \usepackage{listings}
 \lstset{
-    basicstyle=\ttfamily\small,
     xleftmargin=0pt,        
-    framexleftmargin=0pt,
+    framexleftmargin=5pt,
     framesep=0pt,
-    numbers=left,            
+    numbers=none,            
     frame=single,            
     breaklines=true,
     tabsize=4
@@ -93,30 +92,30 @@ SystemVerilog is a hardware description and hardware verification language used 
 \begin{itemize}
     \item \textbf{integer:} 32-bit signed integer, only for simulation and non-synthesis purpose.
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        integer i;
-        for (i=0; i<10; i=i+1) begin
-            $display("i = %d", i);
-        end
+    integer i;
+    for (i=0; i<10; i=i+1) begin
+        $display("i = %d", i);
+    end
     \end{lstlisting}
     \item \textbf{time:} 64-bit unsigned integer, for presenting time.
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        time t_start, t_end;
+    time t_start, t_end;
     \end{lstlisting}
     \item \textbf{real:} floating number, for accurate time calculation and simulation.
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        real voltage;
+    real voltage;
     \end{lstlisting}
     \item \textbf{wire:} net type, for connecting modules and continuous assignment (combinational logic).
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        wire a, b;
-        assign a = b & 1'b1;
+    wire a, b;
+    assign a = b & 1'b1;
     \end{lstlisting}
     \item \textbf{reg:} memory or register type, for storing values and sequential logic.
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        reg clk;
-        always @(posedge clk) begin
-            clk <= ~clk;
-        end
+    reg clk;
+    always @(posedge clk) begin
+        clk <= ~clk;
+    end
     \end{lstlisting}
 \end{itemize}
 
@@ -135,18 +134,18 @@ SystemVerilog is a hardware description and hardware verification language used 
     \end{figure}
     \item \textbf{bit (etc.):} offers more flexibility in bit manipulation.
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        bit [7:0] data;
-        shortint value;
+    bit [7:0] data;
+    shortint value;
     \end{lstlisting}
     \item \textbf{enum:} enumeration type, for defining a set of named values.
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        typedef enum logic [1:0] {IDLE, BUSY, DONE} state_t;
-        state_t current_state;
+    typedef enum logic [1:0] {IDLE, BUSY, DONE} state_t;
+    state_t current_state;
     \end{lstlisting}
     \item \textbf{typedef:} to define new data types.
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        typedef logic [7:0] byte_t;
-        byte_t data;
+    typedef logic [7:0] byte_t;
+    byte_t data;
     \end{lstlisting}
 \end{itemize}
 SystemVerilog also offers some advanced data types, such as \textbf{struct, union, array, queue}, etc. You will see them if they are used in the lab, we do not cover them here.\\
@@ -169,17 +168,17 @@ Combinational logic refers to circuits or logic blocks whose outputs depend enti
     \caption{Combinational Logic Operations}
 \end{table}
 \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-    logic [3:0] a = 4'b1010;
-    logic [3:0] b = 4'b1100;
-    logic [3:0] and_result, or_result, not_result;
-    logic and_z, or_z, not_z;
+logic [3:0] a = 4'b1010;
+logic [3:0] b = 4'b1100;
+logic [3:0] and_result, or_result, not_result;
+logic and_z, or_z, not_z;
 
-    assign and_result = a & b; // result = 4'b1000
-    assign or_result = a | b; // result = 4'b1110
-    assign not_result = ~a; // result = 4'b0101
-    assign and_z = a && b; // z = 1'b1
-    assign or_z = a || b; // z = 1'b1
-    assign not_z = !a; // z = 1'b0
+assign and_result = a & b; // result = 4'b1000
+assign or_result = a | b; // result = 4'b1110
+assign not_result = ~a; // result = 4'b0101
+assign and_z = a && b; // z = 1'b1
+assign or_z = a || b; // z = 1'b1
+assign not_z = !a; // z = 1'b0
 \end{lstlisting}
 
 \subsection{Sequential Logic}
@@ -189,39 +188,40 @@ Sequential logic differs from combinational logic in that the output of a sequen
     \textbf{combinational logic:}\\
 
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        module mux4to1 (
-            input logic [3:0] data,
-            input logic [1:0] sel,
-            output logic out
-        );
-            always @(*) begin
-                case (sel)
-                    2'b00: out = data[0];
-                    2'b01: out = data[1];
-                    2'b10: out = data[2];
-                    2'b11: out = data[3];
-                endcase
-            end
-        endmodule
+module mux4to1 (
+    input logic [3:0] data,
+    input logic [1:0] sel,
+    output logic out
+);
+    always @(*) begin
+        case (sel)
+            2'b00: out = data[0];
+            2'b01: out = data[1];
+            2'b10: out = data[2];
+            2'b11: out = data[3];
+        endcase
+    end
+endmodule
     \end{lstlisting}
     \columnbreak
     \textbf{sequential logic:}\\
 
     \begin{lstlisting}[language=Verilog,frame=single,backgroundcolor=\color{White},basicstyle=\color{LightGreen},showspaces=false,showstringspaces=false]
-        module counter (
-            input logic clk, reset,
-            output logic [3:0] count
-        );
-            always @(posedge clk or posedge reset) begin
-                if (reset) begin
-                    count <= 4'b0000;
-                end else begin
-                    count <= count + 1;
-                end
-            end
-        endmodule
+module counter (
+    input logic clk, reset,
+    output logic [3:0] count
+);
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            count <= 4'b0000;
+        end else begin
+            count <= count + 1;
+        end
+    end
+endmodule
     \end{lstlisting}
 \end{multicols}
 
+\textcolor{red}{\textbf{Combinational logic}} typically describes hardware where the output depends directly on the input without clock control. Blocking assignments (=) ensure that values are updated immediately and in the proper sequence. In \textcolor{red}{\textbf{Sequential logic}}, non-blocking assignments (\textless =) reflect how registers in hardware update their values simultaneously.
 
 \end{document}
